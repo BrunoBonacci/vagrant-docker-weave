@@ -23,7 +23,7 @@ Every node will `have docker` and `weave` pre-installed.
 
 The you can choose any of the following sample and run the node setup scripts.
 
-  * [001-simple-network](Simple network) - single network with three containers on a private network
+  * [Simple network](001-simple-network) - single network with three containers on a private network
 
 ## License
 
