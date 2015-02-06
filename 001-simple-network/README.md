@@ -1,4 +1,4 @@
-Simple network
+# Simple network
 
 In this exaple we are creating a SDN of 3 containers into 3 separate nodes which
 are all places into a single subnet `10.10.1.0/24`
@@ -23,9 +23,19 @@ are all places into a single subnet `10.10.1.0/24`
 
 ```
 
+To setup this environment run the following commands
+
+    node1$ sudo /vagrant/weave-host1.sh
+    
+    node2$ sudo /vagrant/weave-host2.sh
+    
+    node3$ sudo /vagrant/weave-host3.sh
+
 In this case the containers `cnt1`, `cnt2` and `cnt3` can communicate between each other
 in total isolation from the `20.20.20.*` network, and they can be addressed by their
 ip independetly fron their position (node) in the cluster.
+
+Now you can try to kill a container or even a node and see how the weave network behaves.
 
 For example you can start the `cnt3` from the node two as well and still maintain
 the same ip `10.10.1.3`
