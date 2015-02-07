@@ -25,11 +25,11 @@ are all places into a single subnet `10.10.1.0/24`
 
 To setup this environment run the following commands
 
-    node1$ sudo /vagrant/weave-host1.sh
+    node1$ sudo /vagrant/001-simple-network/weave-host1.sh
     
-    node2$ sudo /vagrant/weave-host2.sh
+    node2$ sudo /vagrant/001-simple-network/weave-host2.sh
     
-    node3$ sudo /vagrant/weave-host3.sh
+    node3$ sudo /vagrant/001-simple-network/weave-host3.sh
 
 In this case the containers `cnt1`, `cnt2` and `cnt3` can communicate between each other
 in total isolation from the `20.20.20.*` network, and they can be addressed by their
