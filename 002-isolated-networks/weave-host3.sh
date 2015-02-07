@@ -1,4 +1,5 @@
 #!/bin/bash
+
 if [ "$(id -u)" != "0" ] ; then
   echo 'ERROR: you have to run this script as root user.'
   exit 1
@@ -12,12 +13,12 @@ function contid(){
 weave launch 20.20.20.21
 
 # starting the container with the specific IP
-C=$( contid $(weave run 10.10.1.2/24 -t -i ubuntu))
+C=$( contid $(weave run 10.10.2.2/24 -t -i ubuntu))
 
 echo "
 | Container | IP           | Container Id |
 |-----------+--------------+--------------|
-| cnt1      | 10.10.1.2/24 | $C |
+| cnt4      | 10.10.2.2/24 | $C |
 "
 echo "now you can attach the session with:"
 echo "docker attach [CntID]"
