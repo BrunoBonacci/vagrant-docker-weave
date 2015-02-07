@@ -9,15 +9,19 @@ function contid(){
 }
 
 # starting the wave daemon
-weave launch 20.20.20.21
+weave launch
 
 # starting the container with the specific IP
-C=$( contid $(weave run 10.10.1.2/24 -t -i ubuntu))
+C=$( contid $(weave run 10.10.1.1/24 -t -i bouzuya/ubuntu-with-curl))
+
+# expose the internal network to the node1
+sudo weave expose 10.10.1.100/24
 
 echo "
 | Container | IP           | Container Id |
 |-----------+--------------+--------------|
-| cnt2      | 10.10.1.2/24 | $C |
+| cnt1      | 10.10.1.1/24 | $C |
+| node1     | 10.10.1.100  |              |
 "
 echo "now you can attach the session with:"
 echo "docker attach [CntID]"

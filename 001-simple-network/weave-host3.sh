@@ -17,7 +17,7 @@ C=$( contid $(weave run 10.10.1.3/24 -t -i ubuntu))
 echo "
 | Container | IP           | Container Id |
 |-----------+--------------+--------------|
-| cnt1      | 10.10.1.3/24 | $C |
+| cnt3      | 10.10.1.3/24 | $C |
 "
 echo "now you can attach the session with:"
 echo "docker attach [CntID]"
