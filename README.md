@@ -52,9 +52,10 @@ and ssh into all three nodes.
 Then you can choose any of the following sample and run the node setup scripts.
 
   * [Simple network](001-simple-network) - single network with three containers on a private network
+  * [Two isolated networks](002-isolated-networks) - two networks which are isolated from each other.
 
 ## License
 
-Copyright © 2014 B. Bonacci
+Copyright © 2015 B. Bonacci
 
 Distributed under the Apache License v 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
