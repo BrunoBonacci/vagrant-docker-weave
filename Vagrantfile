@@ -33,4 +33,14 @@ Vagrant.configure(2) do |config|
     sudo chmod a+x /usr/local/bin/weave
   SHELL
 
-end
+  end
+
+  # setting up hostname
+  (1..3).each do |i|
+    config.vm.define "node#{i}" do |node|
+      node.vm.provision "shell", inline: <<-SHELL
+        echo "node#{i}" >> /etc/hostname
+        hostname -F /etc/hostname
+      SHELL
+    end
+  end
