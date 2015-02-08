@@ -88,7 +88,7 @@ Now we can access the `nginx` in `cnt3/node3` event from the host machine or ext
     $ curl -i http://20.20.20.21/
 
 __Note: because of the way the iptables process the PREROUTING rules, this won't work from inside `node1`__,
-but it will be accessible from everywhere else. To be able to access it event from `node1` you can either
+but it will be accessible from everywhere else. To be able to access it even from `node1` you can either
 use the internal container ip `curl -i http://10.10.1.3` or add the following NAT rule.
 
     node1$ sudo iptables -t nat -A OUTPUT -p tcp --dport 80 -j DNAT --to-destination 10.10.1.3:80
