@@ -1,5 +1,7 @@
 # External access to the SDN
 
+## Exposing the container (Weave) network to the host network.
+
 In this exaple we are creating a SDN of 3 containers into 3 separate nodes which
 are all places into a single subnet `10.10.1.0/24`. The subnet by default
 is not accessible by the outside world, here whe bridge the two networks
@@ -95,4 +97,62 @@ use the internal container ip `curl -i http://10.10.1.3` or add the following NA
 
 One interesting fact is that the container with `nginx` could be killed and restarted somewhere else
 with the same IP, and everything will be still working. This might be useful in case of failures of `node3`.
+
+## Exposing the host network to the container (Weave) network
+
+In the previous example we have seen how to make the rest of the world interact with the container's network.
+Here we will see how to do the other way round. For example let's assume that you have a database which
+isn't containeraised and it is accessible only by the host network (`20.20.20.*/24`) or even more
+restrictively is accessible only by one node (`node2`); what we want is our containers to be able to access
+this service.
+
+For the purpose of this example let's assume that the service accessible only by `node2` is another
+webservice instance which is running on the `localhost` binding interface of `node2` (and only accessible
+by `node2`)
+
+```
+
+    20.20.20.21                   20.20.20.22                   20.20.20.23
+    ...--+-----------------------------+------------------------------+--...
+         |                             |                              | 
+ +----------------+            +----------------+            +----------------+
+ |                |            |                |            |                |
+ |                |            |                |            |                |
+ |      10.10.1.1 |            |    10.10.1.2   |            |  10.10.1.3     |
+ |          /----------+---------------+-------------+---------------\        |
+ |      --------  |    |       |   --------     |    |       |   ----------   |
+ |      | cnt1 |  |    |       |   | cnt2 |     |    |       |   |  cnt3  |   |
+ |      --------  |    |       |   --------     |    |       |   |nginx:80|   |
+ |                |            |                |    |       |                |
+ |                |    |       | 127.0.01:8888  |    |       |   ----------   |
+ +----------------+    |       +----------------+    |       +----------------+
+       node1   \-------+              node2  \-------+             node3
+              10.10.1.100                    10.10.1.200
+
+```
+
+To setup this environment follow the steps described above and then run:
+
+    node2$ /vagrant/003-external-access/weave-host2b.sh
+
+this will start a web server on `127.0.0.1:8888` which can be verified with
+
+    node2$ netstat -nl | grep 8888
+    tcp        0      0 127.0.0.1:8888          0.0.0.0:*               LISTEN
+
+therefore this service will be accessible only by this node.
+Now lets assume we need to provide access to this service to all containers,
+to do so we will need to `import` the service in the weave network.
+
+    node2$ sudo weave expose 10.10.1.200/24
+
+Now we need to route packets to this ip address to the local service:
+
+    node2$ sudo iptables -t nat -A PREROUTING -p tcp -d 10.10.1.200 --dport 8888 -j DNAT --to-destination 127.0.0.1:8888
+    node2$ sudo iptables -t nat -A POSTROUTING -p tcp --dst 127.0.0.1 --dport 8888 -j SNAT --to-source 10.10.1.200
+
+Now the service in `node2` is accessible by Weave network via the `10.10.1.200` ip address.
+
+This it can be vary usefull to connect part of your infrastructure which are in pre-existing server installation outside
+of the container management.
 
