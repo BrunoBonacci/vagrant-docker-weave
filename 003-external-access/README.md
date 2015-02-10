@@ -98,6 +98,8 @@ use the internal container ip `curl -i http://10.10.1.3` or add the following NA
 One interesting fact is that the container with `nginx` could be killed and restarted somewhere else
 with the same IP, and everything will be still working. This might be useful in case of failures of `node3`.
 
+_More info on the DNAT rules can be found [in this iptables tutorial](https://www.frozentux.net/iptables-tutorial/chunkyhtml/x4033.html)._
+
 ## Exposing the host network to the container (Weave) network
 
 In the previous example we have seen how to make the rest of the world interact with the container's network.
@@ -107,8 +109,7 @@ restrictively is accessible only by one node (`node2`); what we want is our cont
 this service.
 
 For the purpose of this example let's assume that the service accessible only by `node2` is another
-webservice instance which is running on the `localhost` binding interface of `node2` (and only accessible
-by `node2`)
+webservice instance which is running at `30.30.30.30` port `8888`.
 
 ```
 
@@ -126,21 +127,21 @@ by `node2`)
  |                |            |                |    |       |                |
  |                |    |       | 127.0.01:8888  |    |       |   ----------   |
  +----------------+    |       +----------------+    |       +----------------+
-       node1   \-------+              node2  \-------+             node3
-              10.10.1.100                    10.10.1.200
-
+       node1   \-------+           |  node2  \-------+             node3
+              10.10.1.100          |          10.10.1.200
+                                   |
+                                   |
+                                   |30.30.30.30
+                               +----------------+
+                               |                |
+                               |                |
+                               |                |
+                               |  LISTEN :8888  |
+                               +----------------+
+                                    service1  
+                                             
 ```
 
-To setup this environment follow the steps described above and then run:
-
-    node2$ /vagrant/003-external-access/weave-host2b.sh
-
-this will start a web server on `127.0.0.1:8888` which can be verified with
-
-    node2$ netstat -nl | grep 8888
-    tcp        0      0 127.0.0.1:8888          0.0.0.0:*               LISTEN
-
-therefore this service will be accessible only by this node.
 Now lets assume we need to provide access to this service to all containers,
 to do so we will need to `import` the service in the weave network.
 
@@ -148,8 +149,7 @@ to do so we will need to `import` the service in the weave network.
 
 Now we need to route packets to this ip address to the local service:
 
-    node2$ sudo iptables -t nat -A PREROUTING -p tcp -d 10.10.1.200 --dport 8888 -j DNAT --to-destination 127.0.0.1:8888
-    node2$ sudo iptables -t nat -A POSTROUTING -p tcp --dst 127.0.0.1 --dport 8888 -j SNAT --to-source 10.10.1.200
+    node2$ sudo iptables -t nat -A PREROUTING -p tcp -d 10.10.1.200 --dport 8888 -j DNAT --to-destination 30.30.30.30:8888
 
 Now the service in `node2` is accessible by Weave network via the `10.10.1.200` ip address.
 
