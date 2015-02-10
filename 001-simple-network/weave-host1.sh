@@ -12,7 +12,7 @@ function contid(){
 weave launch
 
 # starting the container with the specific IP
-C=$( contid $(weave run 10.10.1.1/24 -t -i ubuntu))
+C=$( contid $(weave run 10.10.1.1/24 --net=none -t -i ubuntu))
 
 echo "
 | Container | IP           | Container Id |

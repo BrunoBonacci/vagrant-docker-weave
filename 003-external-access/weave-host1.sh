@@ -12,7 +12,7 @@ function contid(){
 weave launch
 
 # starting the container with the specific IP
-C=$( contid $(weave run 10.10.1.1/24 -t -i bouzuya/ubuntu-with-curl))
+C=$( contid $(weave run 10.10.1.1/24 --net=none -t -i bouzuya/ubuntu-with-curl))
 
 # expose the internal network to the node1
 sudo weave expose 10.10.1.100/24
