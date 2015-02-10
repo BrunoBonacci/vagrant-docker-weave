@@ -27,7 +27,9 @@ Vagrant.configure(2) do |config|
     sudo apt-get update
 
     # install docker and weave
-    sudo apt-get install -y docker.io
+    # sudo apt-get install -y docker.io
+    # install latest docker version
+    curl -sSL https://get.docker.com/ubuntu/ | sudo sh
     sudo usermod -a -G docker vagrant
     sudo wget -q -O /usr/local/bin/weave https://github.com/zettio/weave/releases/download/latest_release/weave
     sudo chmod a+x /usr/local/bin/weave
