@@ -21,6 +21,10 @@ To easily identify which box are we referring to we will follow this convension:
     node2$ echo "this is a command to execute in the Vagrant node2"
     cnt1$ echo "this command is to be run inside the container1"
 
+To start the cluster run:
+
+    $ vagrant up
+
 To ssh into any of the three nodes just type:
 
     $ vagrant ssh <node_name>
@@ -37,6 +41,15 @@ the container, then run
 the `container-id` can be retrieved with
 
     $ docker ps
+
+To stop the cluster:
+
+    $ vagrant halt
+
+To dispose the cluster
+
+    $ vagrant destroy
+
 
 ## Usage
 
