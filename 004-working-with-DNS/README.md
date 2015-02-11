@@ -67,5 +67,6 @@ the containers in that node won't be resolvable anymore.
 This unfortunately for me is a major problem, as until you don't restart
 the DNS container all other containers won't be resolvable.
 
-
+There are other limitations described in the
+[Weave README](https://github.com/zettio/weave/tree/master/weavedns#readme) page.
 
