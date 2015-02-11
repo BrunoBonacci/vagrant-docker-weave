@@ -60,6 +60,11 @@ You can start the cluster of nodes with:
 This will start 3 nodes with a host-only network set up on `20.20.20.21/24`.
 Every node will `have docker` and `weave` pre-installed.
 
+Generally we are going to try to create a network topology for our containers
+as the main container network. For this reason our container will be started
+specifying `--net=none` to Docker to instruct it to not create the default container's network.
+Where this is not possible I will highlight case by case.
+
 For a more interative session I do suggest to open at least three independent terminal windows
 and ssh into all three nodes.
 Then you can choose any of the following sample and run the node setup scripts.
@@ -67,6 +72,7 @@ Then you can choose any of the following sample and run the node setup scripts.
   * [Simple network](001-simple-network) - single network with three containers on a private network
   * [Two isolated networks](002-isolated-networks) - two networks which are isolated from each other.
   * [Exposing a network](003-external-access) - how to give access to a network from the outside world.
+  * [Network with DNS](004-working-with-DNS) - Sample of Weave DNS with docker containers
 
 ## License
 
