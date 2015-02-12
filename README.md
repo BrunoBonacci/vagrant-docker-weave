@@ -1,6 +1,6 @@
 # vagrant-docker-weave
 
-Multi nodes vagrant setup for docker and weave testing
+Multi nodes vagrant setup for Docker and Weave testing.
 
 This Vagrant project allows you to easily setup and test multiple
 configuration of Docker and Weave.
@@ -12,7 +12,7 @@ Authors:
 
   - Bruno Bonacci
 
-## Documentation conversions
+## Documentation convensions
 
 We will have to execute a number of different commands in different boxes.
 To easily identify which box are we referring to we will follow this convension:
