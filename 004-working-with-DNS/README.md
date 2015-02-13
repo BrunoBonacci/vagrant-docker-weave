@@ -70,3 +70,24 @@ the DNS container all other containers won't be resolvable.
 There are other limitations described in the
 [Weave README](https://github.com/zettio/weave/tree/master/weavedns#readme) page.
 
+The domain `weave.local` is just the default if no others are proviced.
+You can specify your own domain name (including sub-zones) and other search paths
+by running:
+
+```
+node1$ sudo weave run --with-dns 10.10.1.1/24 -ti \
+            --dns-search=db.mynet.priv --dns-search=web.mynet.priv \
+            --dns-search=mynet.priv \
+            -h db1.db.mynet.priv ubuntu
+```
+
+and on a different node.
+
+```
+node2$ sudo weave run --with-dns 10.10.1.2/24 -ti \
+            --dns-search=db.mynet.priv --dns-search=web.mynet.priv \
+            --dns-search=mynet.priv \
+            -h web1.web.mynet.priv ubuntu
+```
+
+This should set the correct hostname and the adequate DNS search path in `/etc/resolv.conf`
