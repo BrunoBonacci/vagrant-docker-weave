@@ -74,14 +74,13 @@ There are other limitations described in the
 At present is not possible to define different domain names rather than `weave.local`,
 this feature is under discussion at [this GitHub issue](https://github.com/zettio/weave/issues/366).
 
-One thing you can do at the moment is to define the DNS search paths which will be added to the
-`/etc/resolv.conf`.
+If you have a corporate DNS to resolve your external services you can add searchpaths into Docker's `/etv/resolv.conf`.
 
 ```
 node1$ sudo weave run --with-dns 10.10.1.1/24 -ti \
             --dns-search=db.mynet.priv --dns-search=web.mynet.priv \
             --dns-search=mynet.priv \
-            -h db1.weave.local ubuntu
+            -h cnt1.weave.local ubuntu
 ```
 
 and on a different node.
@@ -90,7 +89,7 @@ and on a different node.
 node2$ sudo weave run --with-dns 10.10.1.2/24 -ti \
             --dns-search=db.mynet.priv --dns-search=web.mynet.priv \
             --dns-search=mynet.priv \
-            -h web1.weave.local ubuntu
+            -h cnt2.weave.local ubuntu
 ```
 
 In addition of setting up the hostname it will add the `search` clause in your `/etc/resolv.conf`
